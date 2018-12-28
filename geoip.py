@@ -21,7 +21,7 @@ def get_location(ip):
         return response
     except Exception as e:
         print e
-        raise CustomException('Unable to get geo location for ' + ip, 400)
+        raise CustomException('Invalid IP or Unable to get geo location for ' + ip, 400)
 
 
 def get_speed(payload1, payload2):
