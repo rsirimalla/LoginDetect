@@ -123,7 +123,7 @@ def login():
                                                       SPEED_THRESHOLD) if 'speed' in response['subsequentIpAccess'] else 'NA'
         return jsonify(response), 200
     except CustomException as e:
-        return jsonify(e.to_dict()), 201
+        return jsonify(e.to_dict()), e.status_code
     except Exception as e:
         return jsonify({'message': 'Internal server Error'}), 500
 
