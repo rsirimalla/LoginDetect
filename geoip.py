@@ -42,7 +42,7 @@ def get_speed(payload1, payload2):
         )
 
         distance = h_distance + loc1['radius'] + loc2['radius']
-        speed = (distance / abs(payload1['unix_timestamp'] - payload2['unix_timestamp'])) * 3600
+        speed = (distance / float(abs(payload1['unix_timestamp'] - payload2['unix_timestamp']))) * 3600
 
         return round(speed)
     except expression as identifier:
