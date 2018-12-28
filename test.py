@@ -5,6 +5,7 @@ import unittest
 from exception import CustomException
 import geoip
 import validation
+import json
 
 
 class LoginTests(unittest.TestCase):
@@ -26,11 +27,10 @@ class LoginTests(unittest.TestCase):
         self.assertEqual(result.data, "Hello World!!!")
 
     def test_validate_request(self):
-        result = self.app.post('/v1', data={
-            "unix_timestamp": 1514850900,
-            "event_uuid": "85ad929a-db03-4bf4-9541-8f728fa12e482",
-            "ip_address": "206.81.252.6"
-        })
-        print result.data
+        result = self.app.post('/v1', data=json.dumps(dict(
+            unix_timestamp=1514741200,
+            event_uuid="85ad929a-db03-4bf4-9541-8f728fa12e481",
+            ip_address="24.242.71.20"
+        )), content_type='application/json')        
         self.assertEqual(result.status_code, 400)
-        self.assertIsInstance(result.data, CustomException)
+        self.assertEqual(result.data, '{"message":"\'username\' is a required property"}\n')
