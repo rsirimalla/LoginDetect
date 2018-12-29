@@ -3,9 +3,9 @@ from app import app
 import mock
 from mock import patch, Mock
 import unittest
-from exception import CustomException
-import geoip
-import validation
+from lib.exception import CustomException
+import lib.geoip as geoip
+import lib.validation as validation
 import json
 import testdata
 
