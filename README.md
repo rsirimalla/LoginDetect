@@ -33,7 +33,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 - Docker
 - Docker-Compose
-- Python 2.7
+- Python 2.7 (only for development purposes)
 
 ### Steps to run
 
