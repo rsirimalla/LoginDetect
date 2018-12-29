@@ -3,11 +3,11 @@ from flask import Flask, request, jsonify, g
 
 import sqlite3
 import os
-import geoip
+from lib import geoip
 
 from exceptions import Exception
-from exception import CustomException
-from validation import validate_payload
+from lib.exception import CustomException
+from lib.validation import validate_payload
 
 
 app = Flask(__name__)

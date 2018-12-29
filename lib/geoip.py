@@ -7,7 +7,7 @@ from exception import CustomException
 from exceptions import Exception
 
 
-GEOIP_DATABASE = os.path.dirname(os.path.abspath(__file__)) + '../data/GeoLite2-City.mmdb'
+GEOIP_DATABASE = os.path.dirname(os.path.abspath(__file__)) + '/../data/GeoLite2-City.mmdb'
 reader = geoip2.database.Reader(GEOIP_DATABASE)
 
 
