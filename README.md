@@ -53,7 +53,7 @@ pip install -r requirements.txt
 python -m unittest discover tests
 ```
 
-### Resources/External libs:
+### Resources/External libs
 
 - Haversine python lib - https://pypi.org/project/haversine/
 - Python Flask framework - http://flask.pocoo.org/
