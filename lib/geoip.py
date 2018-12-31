@@ -37,15 +37,16 @@ def get_speed(payload1, payload2):
     Calculate speed from one location to another location
 
     Logic:
-    ------
     speed = distance / time
 
     If location is accurate (accuracy_radius =0), distance = haversine(loc1, loc2)
-    If location is not accurate, i.e 
-        Worst case(max) = haversine(loc1, loc2) + (loc1.radius + loc2.radius)
-        Best case (min) = haversine(loc1, loc2) - (loc1.radius + loc2.radius)             
+    If location is not accurate, i.e accurate_radius > 0
+        Worst case distance (max) = haversine(loc1, loc2) + (loc1.radius + loc2.radius)
+        Best  case distance (min) = haversine(loc1, loc2) - (loc1.radius + loc2.radius)             
+        So the distance should be somewhere between max and min
     
     This function implements worstcase approach
+    time delta = abs(payload1.unix_timestamp - payload2.unix_timestamp)
     
     Parameters:
         payload1 - source event details with ip_address, unix_timestamp (timestamp when event generated)
@@ -53,9 +54,6 @@ def get_speed(payload1, payload2):
     
     Returns:
         speed in miles/hr
-
-    distance = haversine distance between locations + (location1.radius + location2.radius)
-    speed = distance / time delta
     '''
     try:
         loc1 = get_location(payload1['ip_address'])
