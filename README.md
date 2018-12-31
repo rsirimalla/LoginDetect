@@ -23,7 +23,7 @@ Identifies logins by a user that occur from locations that are farther apart tha
        - The upside of this approach is all the suspicious logins will be recorded. The downside is, application may record faulty suspicious logins from the same user (from same location) especially as the accuracy_radius goes higher
      - distance(min) = haversine(loc1, loc2) - (loc1.radius + loc2.radius)
        - Upside - minimal number of faulty detections. Down side - sometimes it might miss real suspicious incidents
-   - Current implementation uses first approach
+     - Current implementation uses first approach
 
 ## Getting Started
 

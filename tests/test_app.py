@@ -58,7 +58,7 @@ class LoginTests(unittest.TestCase):
         result = self.app.post('/v1', data=json.dumps(testdata.mock_request_speed_calc), content_type='application/json')
         response = json.loads(result.data)
         self.assertEqual(result.status_code, 200)
-        self.assertEqual(response['subsequentIpAccess']['speed'], 900)
+        self.assertEqual(response['subsequentIpAccess']['speed'], 1140)
         self.assertEqual(response['travelFromCurrentGeoSuspicious'], True)
 
     @mock.patch('app.geoip.haversine')
@@ -74,5 +74,5 @@ class LoginTests(unittest.TestCase):
         result = self.app.post('/v1', data=json.dumps(testdata.mock_request_speed_calc1), content_type='application/json')
         response = json.loads(result.data)
         self.assertEqual(result.status_code, 200)
-        self.assertEqual(response['subsequentIpAccess']['speed'], 90)
+        self.assertEqual(response['subsequentIpAccess']['speed'], 114)
         self.assertEqual(response['travelFromCurrentGeoSuspicious'], False)

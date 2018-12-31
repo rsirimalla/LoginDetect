@@ -12,6 +12,14 @@ reader = geoip2.database.Reader(GEOIP_DATABASE)
 
 
 def get_location(ip):
+    '''
+    Gets location details (lat, lon, accuracy_radius)
+
+    Parameters
+        ip - IP address
+    Returns
+        Dictionary containing lat, lon and accuracy_radius
+    '''
     try:
         response = {}
         location = reader.city(ip).location
@@ -26,7 +34,25 @@ def get_location(ip):
 
 def get_speed(payload1, payload2):
     '''
-    Calculate speed 
+    Calculate speed from one location to another location
+
+    Logic:
+    ------
+    speed = distance / time
+
+    If location is accurate (accuracy_radius =0), distance = haversine(loc1, loc2)
+    If location is not accurate, i.e 
+        Worst case(max) = haversine(loc1, loc2) + (loc1.radius + loc2.radius)
+        Best case (min) = haversine(loc1, loc2) - (loc1.radius + loc2.radius)             
+    
+    This function implements worstcase approach
+    
+    Parameters:
+        payload1 - source event details with ip_address, unix_timestamp (timestamp when event generated)
+        payload2 - destination event details with ip_address, unix_timestamp (timestamp when event generated)
+    
+    Returns:
+        speed in miles/hr
 
     distance = haversine distance between locations + (location1.radius + location2.radius)
     speed = distance / time delta
@@ -41,7 +67,7 @@ def get_speed(payload1, payload2):
             unit='mi'
         )
 
-        distance = h_distance + loc1['radius'] + loc2['radius']
+        distance = h_distance + (loc1['radius'] + loc2['radius']) * 1.6
         speed = (distance / float(abs(payload1['unix_timestamp'] - payload2['unix_timestamp']))) * 3600
 
         return round(speed)

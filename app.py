@@ -30,7 +30,7 @@ def get_db():
 
 @app.teardown_appcontext
 def close_connection(exception):
-    ''' DB resource cleaup on exit '''
+    ''' DB resource cleaup '''
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
@@ -40,7 +40,17 @@ def close_connection(exception):
 
 
 def get_access_details_from_db(payload, type):
-    ''' Get previous/subsequent login info from DB '''
+    ''' 
+    Get previous/subsequent login info from DB 
+    
+    Parameters:
+        payload - Request payload
+        type - "previous" or "subsequent" login event
+
+    Returns:
+        previous or subsequent databse record (if present)
+        None if record not found 
+    '''
     try:
         sign = '<' if type == 'previous' else '>'
         order = 'desc' if type == 'previous' else ''
@@ -69,7 +79,13 @@ def get_access_details_from_db(payload, type):
 
 
 def insert_db(payload, location):
-    ''' Insert into DB'''
+    ''' 
+    Insert into database
+    
+    Parameters:
+        payload - Request payload
+        location - Location details from Geoip database
+    '''
     try:
         sql = 'insert into login_geo_location(username, event_uuid,ip_address, unix_timestamp, lat, lon, radius) values(?,?,?,?,?,?,?);'
         values = [payload['username'], payload['event_uuid'], payload['ip_address'],
@@ -83,9 +99,15 @@ def insert_db(payload, location):
 
 def get_access_details(payload, type):
     '''
-    Get access details from previous or subsequent logins
-    @payload - API payload
-    @type - Login access type, permitted values => 'previous' or 'subsequent'
+    Get access details from previous or subsequent login events
+
+    Parameters:
+        payload - Request payload
+        type - Login access type, permitted values => 'previous' or 'subsequent'
+    
+    Returns:
+        Previous or Subsequent event dictionary (if present)
+        Empty dictionary (if event doesnt exist)
     '''
     try:
         response = {}
