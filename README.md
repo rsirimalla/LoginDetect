@@ -53,6 +53,27 @@ pip install -r requirements.txt
 python -m unittest discover tests
 ```
 
+### Load testing (NodeJS vs Python)
+**Scenario**: 100 concurrent reuests/sec i.e, 6000 requests in minute
+
+**Python**
+  - Request latency:
+    - min: 5.1
+    - max: 460
+    - median: 6.5
+    - p95: 9
+    - p99: 27
+
+**Node**
+  - Request latency:
+    - min: 1.3
+    - max: 110.6
+    - median: 2.1
+    - p95: 2.7
+    - p99: 5.1
+
+**Observation**: Node implementation is alomost 4 times faster than Python. Its because of DB connection. NodeJS can re-use DB connection for all the requests due to its single threaded nature. Python create/destroy DB connection for every request due to its multi-threaded nature (to avoid dead locks, race conditions etc).
+
 ### Resources/External libs
 
 - Haversine python lib - https://pypi.org/project/haversine/
