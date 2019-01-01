@@ -67,7 +67,7 @@ def get_speed(event1, event2):
         )
 
         # Distance with uncertainity
-        distance = h_distance + (loc1['radius'] + loc2['radius']) * 1.6
+        distance = h_distance + (loc1['radius'] + loc2['radius']) * 0.625
 
         # Speed = distance / time
         speed = (distance / float(abs(event1['unix_timestamp'] - event2['unix_timestamp']))) * 3600
