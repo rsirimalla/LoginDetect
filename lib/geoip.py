@@ -13,7 +13,7 @@ reader = geoip2.database.Reader(GEOIP_DATABASE)
 
 def get_location(ip):
     '''
-    Gets location details (lat, lon, accuracy_radius)
+    Gets location details for an IP (lat, lon, accuracy_radius)
 
     Parameters
         ip - IP address
@@ -32,41 +32,45 @@ def get_location(ip):
         raise CustomException('Invalid IP or Unable to get geo location for ' + ip, 400)
 
 
-def get_speed(payload1, payload2):
+def get_speed(event1, event2):
     '''
-    Calculate speed from one location to another location
-
-    Logic:
+    Calculate speed between two login events
+    
     speed = distance / time
 
     If location is accurate (accuracy_radius =0), distance = haversine(loc1, loc2)
     If location is not accurate, i.e accurate_radius > 0
-        Worst case distance (max) = haversine(loc1, loc2) + (loc1.radius + loc2.radius)
-        Best  case distance (min) = haversine(loc1, loc2) - (loc1.radius + loc2.radius)             
-        So the distance should be somewhere between max and min
+        Worst case(max): distance = haversine(loc1, loc2) + (loc1.radius + loc2.radius)
+        Best  case(min): distance = haversine(loc1, loc2) - (loc1.radius + loc2.radius)             
+        The distance should be somewhere between max and min
     
     This function implements worstcase approach
-    time delta = abs(payload1.unix_timestamp - payload2.unix_timestamp)
+    time delta = abs(event1.unix_timestamp - event2.unix_timestamp)
     
     Parameters:
-        payload1 - source event details with ip_address, unix_timestamp (timestamp when event generated)
-        payload2 - destination event details with ip_address, unix_timestamp (timestamp when event generated)
+        event1 - source event details with ip_address, unix_timestamp (timestamp when event generated)
+        event2 - destination event details with ip_address, unix_timestamp (timestamp when event generated)
     
     Returns:
         speed in miles/hr
     '''
     try:
-        loc1 = get_location(payload1['ip_address'])
-        loc2 = get_location(payload2['ip_address'])
+        # Get location details
+        loc1 = get_location(event1['ip_address'])
+        loc2 = get_location(event2['ip_address'])
 
+        # Haversine distance
         h_distance = haversine(
             (loc1['lat'], loc1['lon']),
             (loc2['lat'], loc2['lon']),
             unit='mi'
         )
 
+        # Distance with uncertainity
         distance = h_distance + (loc1['radius'] + loc2['radius']) * 1.6
-        speed = (distance / float(abs(payload1['unix_timestamp'] - payload2['unix_timestamp']))) * 3600
+
+        # Speed = distance / time
+        speed = (distance / float(abs(event1['unix_timestamp'] - event2['unix_timestamp']))) * 3600
 
         return round(speed)
     except expression as identifier:

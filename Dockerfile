@@ -6,7 +6,7 @@ WORKDIR /install
 COPY requirements.txt /requirements.txt
 RUN pip install --install-option="--prefix=/install" -r /requirements.txt
 
-# Copy and run
+# Copy from phase one
 FROM base
 COPY --from=builder /install /usr/local
 ADD . /app
