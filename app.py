@@ -168,7 +168,7 @@ def login():
         # true if speed > threshold else false, 'NA' if subsequent login event doesnt eist
         response['travelFromCurrentGeoSuspicious'] = (response['subsequentIpAccess']['speed'] >
                                                       SPEED_THRESHOLD) if 'speed' in response['subsequentIpAccess'] else 'NA'
-        return jsonify(response), 200
+        return jsonify(response), 201
     except CustomException as e:
         return jsonify(e.to_dict()), e.status_code
     except Exception as e:

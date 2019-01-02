@@ -40,7 +40,7 @@ class LoginTests(unittest.TestCase):
 
         result = self.app.post('/v1', data=json.dumps(testdata.request_good), content_type='application/json')
         response = json.loads(result.data)
-        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.status_code, 201)
         self.assertEqual(response['currentGeo']['radius'], 200)
         self.assertEqual(response['travelToCurrentGeoSuspicious'], 'NA')
         self.assertEqual(response['travelFromCurrentGeoSuspicious'], 'NA')
@@ -57,7 +57,7 @@ class LoginTests(unittest.TestCase):
 
         result = self.app.post('/v1', data=json.dumps(testdata.mock_request_speed_calc), content_type='application/json')
         response = json.loads(result.data)
-        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.status_code, 201)
         self.assertEqual(response['subsequentIpAccess']['speed'], 750)
         self.assertEqual(response['travelFromCurrentGeoSuspicious'], True)
 
@@ -73,6 +73,6 @@ class LoginTests(unittest.TestCase):
 
         result = self.app.post('/v1', data=json.dumps(testdata.mock_request_speed_calc1), content_type='application/json')
         response = json.loads(result.data)
-        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.status_code, 201)
         self.assertEqual(response['subsequentIpAccess']['speed'], 75)
         self.assertEqual(response['travelFromCurrentGeoSuspicious'], False)
