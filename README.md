@@ -37,7 +37,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Steps to run
 
-```
+``` bash
 git clone git@github.com:rsirimalla/LoginDetect.git
 cd LoginDetect
 docker-compose up
@@ -45,9 +45,19 @@ docker-compose up
 
 Access the app from http://localhost:5000/v1
 
+### Login event example
+
+``` bash
+#!/bin/bash
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"username":"demo","ip_address":"206.81.252.6", "event_uuid":"85ad929a-db03-4bf4-9541-8f728fa12e486", "unix_timestamp":151465500}' \
+  http://localhost:5000/v1
+```
+
 ### Running unit tests
 
-```
+``` bash
 cd LoginDetect
 pip install -r requirements.txt
 python -m unittest discover tests
