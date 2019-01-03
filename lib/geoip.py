@@ -23,8 +23,8 @@ def get_location(ip):
     try:
         response = {}
         location = reader.city(ip).location
-        response['lat'] = location.longitude
-        response['lon'] = location.latitude
+        response['lat'] = location.latitude
+        response['lon'] = location.longitude
         response['radius'] = location.accuracy_radius
         return response
     except Exception as e:
